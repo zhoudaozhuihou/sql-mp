@@ -28,23 +28,20 @@ graph TD
 
     %% 核心处理层
     subgraph 核心处理层
-        Core --> SQLParser[SQL 解析器]
-        Core --> SecurityCheck[SQL 安全检查]
-        Core --> PerformanceCheck[SQL 性能检查]
-        Core --> Optimizer[SQL 优化器]
-        Core --> GPTAgent[DB-GPT Agent]
-        SQLParser -->|解析 SQL| SecurityCheck
-        SQLParser -->|解析 SQL| PerformanceCheck
-        SecurityCheck -->|安全评估| Optimizer
-        PerformanceCheck -->|性能评估| Optimizer
-        Optimizer -->|优化建议| GPTAgent
-        GPTAgent -->|生成优化 SQL| Core
+        Core --> SQLInput[SQL 输入]
+        SQLInput --> DBGPT[DB-GPT 引擎]
+        DBGPT -->|安全检查| SecurityResult[安全检查结果]
+        DBGPT -->|性能检查| PerformanceResult[性能检查结果]
+        DBGPT -->|优化建议| OptimizationResult[优化建议]
+        SecurityResult -->|返回结果| Core
+        PerformanceResult -->|返回结果| Core
+        OptimizationResult -->|返回结果| Core
         style Core fill:#f0f4c3,stroke:#dce775;
-        style SQLParser fill:#f0f4c3,stroke:#dce775;
-        style SecurityCheck fill:#f0f4c3,stroke:#dce775;
-        style PerformanceCheck fill:#f0f4c3,stroke:#dce775;
-        style Optimizer fill:#f0f4c3,stroke:#dce775;
-        style GPTAgent fill:#f0f4c3,stroke:#dce775;
+        style SQLInput fill:#f0f4c3,stroke:#dce775;
+        style DBGPT fill:#f0f4c3,stroke:#dce775;
+        style SecurityResult fill:#f0f4c3,stroke:#dce775;
+        style PerformanceResult fill:#f0f4c3,stroke:#dce775;
+        style OptimizationResult fill:#f0f4c3,stroke:#dce775;
     end
 
     %% 数据存储层
