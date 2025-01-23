@@ -1,0 +1,78 @@
+graph TD
+    %% 定义样式
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef userLayer fill:#e3f2fd,stroke:#64b5f6;
+    classDef appLayer fill:#fff3e0,stroke:#ffb74d;
+    classDef coreLayer fill:#f0f4c3,stroke:#dce775;
+    classDef dataLayer fill:#ffcdd2,stroke:#e57373;
+
+    %% 用户交互层
+    subgraph 用户交互层
+        UI[用户界面] --> API[API 网关]
+        style UI fill:#e3f2fd,stroke:#64b5f6;
+        style API fill:#e3f2fd,stroke:#64b5f6;
+    end
+
+    %% 应用服务层
+    subgraph 应用服务层
+        API --> Auth[身份认证]
+        API --> Logging[日志服务]
+        API --> RateLimit[速率限制]
+        Auth -->|验证用户| Core[核心处理层]
+        Logging -->|记录日志| Core
+        RateLimit -->|限制请求| Core
+        style Auth fill:#fff3e0,stroke:#ffb74d;
+        style Logging fill:#fff3e0,stroke:#ffb74d;
+        style RateLimit fill:#fff3e0,stroke:#ffb74d;
+    end
+
+    %% 核心处理层
+    subgraph 核心处理层
+        Core --> SQLParser[SQL 解析器]
+        Core --> SecurityCheck[SQL 安全检查]
+        Core --> PerformanceCheck[SQL 性能检查]
+        Core --> Optimizer[SQL 优化器]
+        Core --> GPTAgent[DB-GPT Agent]
+        SQLParser -->|解析 SQL| SecurityCheck
+        SQLParser -->|解析 SQL| PerformanceCheck
+        SecurityCheck -->|安全评估| Optimizer
+        PerformanceCheck -->|性能评估| Optimizer
+        Optimizer -->|优化建议| GPTAgent
+        GPTAgent -->|生成优化 SQL| Core
+        style Core fill:#f0f4c3,stroke:#dce775;
+        style SQLParser fill:#f0f4c3,stroke:#dce775;
+        style SecurityCheck fill:#f0f4c3,stroke:#dce775;
+        style PerformanceCheck fill:#f0f4c3,stroke:#dce775;
+        style Optimizer fill:#f0f4c3,stroke:#dce775;
+        style GPTAgent fill:#f0f4c3,stroke:#dce775;
+    end
+
+    %% 数据存储层
+    subgraph 数据存储层
+        Core --> DB[数据库]
+        Core --> Cache[缓存]
+        Core --> LogDB[日志数据库]
+        DB -->|存储数据| Core
+        Cache -->|缓存数据| Core
+        LogDB -->|存储日志| Core
+        style DB fill:#ffcdd2,stroke:#e57373;
+        style Cache fill:#ffcdd2,stroke:#e57373;
+        style LogDB fill:#ffcdd2,stroke:#e57373;
+    end
+
+    %% 美化
+    linkStyle 0 stroke:#64b5f6,stroke-width:2px;
+    linkStyle 1 stroke:#64b5f6,stroke-width:2px;
+    linkStyle 2 stroke:#64b5f6,stroke-width:2px;
+    linkStyle 3 stroke:#ffb74d,stroke-width:2px;
+    linkStyle 4 stroke:#ffb74d,stroke-width:2px;
+    linkStyle 5 stroke:#ffb74d,stroke-width:2px;
+    linkStyle 6 stroke:#dce775,stroke-width:2px;
+    linkStyle 7 stroke:#dce775,stroke-width:2px;
+    linkStyle 8 stroke:#dce775,stroke-width:2px;
+    linkStyle 9 stroke:#dce775,stroke-width:2px;
+    linkStyle 10 stroke:#dce775,stroke-width:2px;
+    linkStyle 11 stroke:#dce775,stroke-width:2px;
+    linkStyle 12 stroke:#e57373,stroke-width:2px;
+    linkStyle 13 stroke:#e57373,stroke-width:2px;
+    linkStyle 14 stroke:#e57373,stroke-width:2px;
